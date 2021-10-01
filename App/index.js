@@ -1,7 +1,7 @@
 import React from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
 
-import Options from './screens/Options'
+// import Options from './screens/Options'
+import Home from './screens/Home'
 
-export default () => <Options />
+export default () => <Home />
 

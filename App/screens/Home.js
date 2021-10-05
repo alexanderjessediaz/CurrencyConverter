@@ -2,29 +2,31 @@ import React from "react";
 
 import {StyleSheet, View, StatusBar, Image, Dimensions} from 'react-native'
 
+import { ConversionInput } from "../components/ConversionInput";
 import colors from '../constants/colors'
 
 const screen = Dimensions.get('window')
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.blue,
-        flex: 1,
-        justifyContent: 'center'
+      flex: 1,
+      backgroundColor: colors.blue,
+      justifyContent: 'center'
     },
     logoContainer: {
       alignItems: 'center',
       justifyContent: 'center',
-      logoBackground: {
-        position: 'absolute',
-        width: screen.width * 0.45,
-        height: screen.height * 0.45,
-      },
-      logo:{
-        width: screen.width * 0.25,
-        height: screen.height * 0.25,
-      }
+      marginBottom: 20
     },
+    logoBackground: {
+      width: screen.width / 0.45,
+      height: screen.height * 0.45,
+    },
+    logo:{
+      position: 'absolute',
+      width: screen.width * 0.25,
+      height: screen.height * 0.25,
+    }
 })
 
 export default () => {
@@ -44,6 +46,19 @@ export default () => {
             resizeMode='contain'
           />
         </View>
+
+        <ConversionInput 
+          text='USD'
+          value="123"
+          onButtonPress={() => alert('todo!')}
+          onChangeText={text => console.log('text', text)}
+          keyboardType="numeric"
+        />
+        <ConversionInput 
+          text="GBP"
+          value="123"
+          onButtonPress={() => alert('todo!')}
+        />
       </View>
     )
 }

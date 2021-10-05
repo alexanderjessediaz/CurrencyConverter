@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "date-fns": "^2.25.0",
     "eslint": "^7.32.0",
     "eslint-config-handlebarlabs": "^0.0.6",
     "expo": "~42.0.1",

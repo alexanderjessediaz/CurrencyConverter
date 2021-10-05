@@ -58,6 +58,7 @@ export default () => {
           text="GBP"
           value="123"
           onButtonPress={() => alert('todo!')}
+          editable={false}
         />
       </View>
     )

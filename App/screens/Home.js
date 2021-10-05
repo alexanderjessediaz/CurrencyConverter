@@ -1,18 +1,23 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
-import {StyleSheet, View, StatusBar, Image, Dimensions, Text} from 'react-native'
+import {StyleSheet, View, StatusBar, Image, Dimensions, Text, ScrollView, Keyboard} from 'react-native'
 import {format} from 'date-fns'
 
 import { ConversionInput } from "../components/ConversionInput";
+import { Button } from '../components/Button'
 import colors from '../constants/colors'
 
 const screen = Dimensions.get('window')
+
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.blue,
       justifyContent: 'center'
+    },
+    content: {
+      paddingTop: screen.height *0.2
     },
     logoContainer: {
       alignItems: 'center',
@@ -39,46 +44,78 @@ const styles = StyleSheet.create({
       color: colors.white,
       fontSize: 13,
       textAlign: 'center'
-    }
+    },
+    inputContainer: {
+      marginBottom: 10,
+    },
 })
 
 export default () => {
   const baseCurrency = 'USD'
   const quoteCurrency = 'GBP'
-  const date = new Date()
+  // const conversionRate = 0.89824;
+  const date = '2020-03-23';
+
+  const [scrollEnabled, setScrollEnabled] = useState(false)
+
+  useEffect(() => {
+    const showListener = Keyboard.addListener('keyboardDidShow', () => 
+      setScrollEnabled(true)
+    );
+    const hideListener = Keyboard.addListener('keyboardDidHide', () => 
+      setScrollEnabled(false)
+    );
+
+    return() => {
+      showListener.remove()
+      hideListener.remove()
+    }
+  }, [])
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor={colors.blue} />
+        <ScrollView scrollEnabled={scrollEnabled}>
+          <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
+          <View style={styles.content}>
+            <View style={styles.logoContainer}>
+              <Image 
+                source={require('../assets/images/background.png')}
+                style={styles.logoBackground}
+                resizeMode='contain'
+              />
+              <Image 
+                source={require('../assets/images/logo.png')} 
+                style={styles.logo}
+                resizeMode='contain'
+              />
+            </View>
+            <Text style={styles.textHeader}>Currency Converter</Text>
+            <View style={styles.inputContainer}>
+              <ConversionInput 
+                text={baseCurrency}
+                value="123"
+                onButtonPress={() => alert('todo!')}
+                keyboardType="numeric"
+                onChangeText={text => console.log('text', text)}
+              />
+              <ConversionInput 
+                text={quoteCurrency}
+                value="123"
+                editable={false}
+                onButtonPress={() => alert('todo!')}
+              />
+            </View>
+            <Text style={styles.text}>
+              {`1 ${baseCurrency}= x of ${quoteCurrency} as of  ${format(
+              new Date(date),
+              'MMM do, yyyy'
+            )}`}
+            </Text>
 
-        <View style={styles.logoContainer}>
-          <Image 
-            source={require('../assets/images/background.png')}
-            style={styles.logoBackground}
-            resizeMode='contain'
-          />
-          <Image 
-            source={require('../assets/images/logo.png')} 
-            style={styles.logo}
-            resizeMode='contain'
-          />
-        </View>
+            <Button text='reverse currencies' onPress={() => alert('todo!')} />
 
-        <ConversionInput 
-          text={baseCurrency}
-          value="123"
-          onButtonPress={() => alert('todo!')}
-          onChangeText={text => console.log('text', text)}
-          keyboardType="numeric"
-        />
-        <ConversionInput 
-          text={quoteCurrency}
-          value="123"
-          onButtonPress={() => alert('todo!')}
-          editable={false}
-        />
-        <Text style={styles.text}>
-          {`1 ${baseCurrency}= x of ${quoteCurrency} as of ${format(date, 'MMMM, dd, yyyy')}`}
-        </Text>
+            <View style={{ height: screen.height}} />
+          </View>
+        </ScrollView>
       </View>
     )
 }

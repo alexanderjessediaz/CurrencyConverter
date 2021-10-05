@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 
-import {StyleSheet, View, StatusBar, Image, Dimensions, Text, ScrollView, Keyboard} from 'react-native'
+import {StyleSheet, View, StatusBar, Image, Dimensions, Text, ScrollView} from 'react-native'
 import {format} from 'date-fns'
 
 import { ConversionInput } from "../components/ConversionInput";
 import { Button } from '../components/Button'
+import { KeyboardSpacer } from "../components/KeyboardSpacer";
 import colors from '../constants/colors'
 
 const screen = Dimensions.get('window')
@@ -14,7 +15,6 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.blue,
-      justifyContent: 'center'
     },
     content: {
       paddingTop: screen.height *0.2
@@ -58,19 +58,7 @@ export default () => {
 
   const [scrollEnabled, setScrollEnabled] = useState(false)
 
-  useEffect(() => {
-    const showListener = Keyboard.addListener('keyboardDidShow', () => 
-      setScrollEnabled(true)
-    );
-    const hideListener = Keyboard.addListener('keyboardDidHide', () => 
-      setScrollEnabled(false)
-    );
-
-    return() => {
-      showListener.remove()
-      hideListener.remove()
-    }
-  }, [])
+  
     return (
       <View style={styles.container}>
         <ScrollView scrollEnabled={scrollEnabled}>
@@ -113,7 +101,7 @@ export default () => {
 
             <Button text='reverse currencies' onPress={() => alert('todo!')} />
 
-            <View style={{ height: screen.height}} />
+            <KeyboardSpacer onToggle={(visible) => setScrollEnabled(visible)} />
           </View>
         </ScrollView>
       </View>
